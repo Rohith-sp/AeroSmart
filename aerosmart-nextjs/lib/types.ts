@@ -25,5 +25,5 @@ export interface DerivedMetrics {
   xaiAction: 'exhaust' | 'alert' | 'fan-off' | 'normal';
 }
 
-export type TabId = 'live' | 'analytics' | 'xai';
+export type TabId = 'live' | 'analytics' | 'xai' | 'insights' | 'reports';
 export type TimeFilter = '1h' | '24h' | '7d';

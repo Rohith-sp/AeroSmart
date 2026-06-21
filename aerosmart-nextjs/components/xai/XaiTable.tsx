@@ -29,11 +29,11 @@ function classifyRow(hazard: number, motorActive: boolean) {
   }
   if (motorActive && hazard < 75) {
     return {
-      label: 'Fan Active (spike)',
-      cls: 'badge-red',
+      label: 'Manual / Spike',
+      cls: 'badge-amber',
       scoreColor: 'var(--amber)',
       // Explain the apparent mismatch to the user
-      note: 'Window avg shown — a momentary spike >75 triggered the fan within this 2-min window',
+      note: 'Fan was activated via manual web override OR a momentary hazard spike.',
     };
   }
   if (!motorActive && hazard >= 50) {
@@ -94,9 +94,24 @@ export default function XaiTable({ history }: XaiTableProps) {
                     </span>
                   </td>
                   <td className="xai-breakdown">
-                    Gas Factor: {gasFactor} × Temp Mult: {tempMultiplier} + Occ Penalty: {occupancyPenalty}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap', marginBottom: cfg.note ? '6px' : '0' }}>
+                      <span style={{ background: 'rgba(255,255,255,0.06)', padding: '3px 8px', borderRadius: '4px', color: 'var(--text)', border: '1px solid rgba(255,255,255,0.1)' }}>
+                        <span style={{ opacity: 0.7, marginRight: 4 }}>Gas Severity</span> 
+                        <strong style={{ color: 'var(--amber)' }}>{gasFactor}</strong>
+                      </span>
+                      <span style={{ color: 'var(--text-faint)' }}>×</span>
+                      <span style={{ background: 'rgba(255,255,255,0.06)', padding: '3px 8px', borderRadius: '4px', color: 'var(--text)', border: '1px solid rgba(255,255,255,0.1)' }}>
+                        <span style={{ opacity: 0.7, marginRight: 4 }}>Heat Multiplier</span> 
+                        <strong style={{ color: 'var(--amber)' }}>{tempMultiplier}x</strong>
+                      </span>
+                      <span style={{ color: 'var(--text-faint)' }}>+</span>
+                      <span style={{ background: 'rgba(255,255,255,0.06)', padding: '3px 8px', borderRadius: '4px', color: 'var(--text)', border: '1px solid rgba(255,255,255,0.1)' }}>
+                        <span style={{ opacity: 0.7, marginRight: 4 }}>Occupancy Penalty</span> 
+                        <strong style={{ color: occupancyPenalty > 0 ? 'var(--red)' : 'var(--text)' }}>+{occupancyPenalty}</strong>
+                      </span>
+                    </div>
                     {cfg.note && (
-                      <div style={{ marginTop: 3, fontSize: 10.5, color: 'var(--amber)', fontStyle: 'italic' }}>
+                      <div style={{ fontSize: 11, color: 'var(--amber)', fontStyle: 'italic', paddingLeft: '2px' }}>
                         ⚡ {cfg.note}
                       </div>
                     )}

@@ -21,13 +21,17 @@ import FilterRow        from '@/components/analytics/FilterRow';
 import CorrelationChart from '@/components/analytics/CorrelationChart';
 import MotorPowerChart  from '@/components/analytics/MotorPowerChart';
 
-import XaiTable        from '@/components/xai/XaiTable';
-import MaintenanceHub  from '@/components/xai/MaintenanceHub';
+import XaiTable         from '@/components/xai/XaiTable';
+import MaintenanceHub   from '@/components/xai/MaintenanceHub';
+import InsightsTab      from '@/components/insights/InsightsTab';
+import ReportsTab       from '@/components/reports/ReportsTab';
 
 const TAB_TITLES: Record<TabId, string> = {
   live:      'Live Monitoring',
   analytics: 'Analytics & Trends',
   xai:       'Diagnostics & XAI',
+  insights:  'AI Pattern Insights',
+  reports:   'Compliance Reports',
 };
 
 const USE_REAL = process.env.NEXT_PUBLIC_USE_REAL_DATA === 'true';
@@ -159,6 +163,20 @@ export default function DashboardPage() {
               <XaiTable history={history} />
               <MaintenanceHub history={history} />
             </div>
+          </div>
+        )}
+
+        {/* ── TAB: AI PATTERN INSIGHTS ── */}
+        {!waitingForData && activeTab === 'insights' && (
+          <div className="page-body">
+            <InsightsTab history={history} />
+          </div>
+        )}
+
+        {/* ── TAB: COMPLIANCE REPORTS ── */}
+        {!waitingForData && activeTab === 'reports' && (
+          <div className="page-body">
+            <ReportsTab history={history} />
           </div>
         )}
 
